@@ -47,19 +47,30 @@ void	mouse_move(SDL_MouseMotionEvent e)
 	// todo
 }
 
+/*
+** Note: This part already defines that we'll be using the RIGHT-HAND RULE.
+** Everybody else does it. Let's not get creative.
+*/
 void	keyboard(SDL_KeyboardEvent e)
 {
-	if (e.keysym.scancode == SDL_SCANCODE_W)
+	if (e.keysym.scancode == SDL_SCANCODE_W) // fwd
 		g_camera.pos.x += 0.1;
-	if (e.keysym.scancode == SDL_SCANCODE_A)
+	if (e.keysym.scancode == SDL_SCANCODE_A) // left
 		g_camera.pos.y += 0.1;
-	if (e.keysym.scancode == SDL_SCANCODE_S)
+	if (e.keysym.scancode == SDL_SCANCODE_S) // back
 		g_camera.pos.x -= 0.1;
-	if (e.keysym.scancode == SDL_SCANCODE_D)
+	if (e.keysym.scancode == SDL_SCANCODE_D) // right
 		g_camera.pos.y -= 0.1;
 }
 
 void	render()
 {
-	//
+	Uint32 time = SDL_GetTicks();
+
+	SDL_memset(g_surface->pixels, 0, WIN_WIDTH * g_surface->pitch);
+
+	t_xy center = vec2(WIN_MIDWIDTH, WIN_MIDHEIGHT);
+	t_xy dir = vec2(cos(time * 0.01), sin(time * 0.01));
+	t_xy end = vec2_add(center, vec2_mul(dir, 100));
+	draw(g_surface->pixels, center, end, 0xFFFF00);
 }
