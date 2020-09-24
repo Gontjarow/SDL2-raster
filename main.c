@@ -9,6 +9,8 @@ t_cam		g_camera = {0};
 
 int main()
 {
+	t_mesh test = load_model("tiny-plane.obj");
+	printf("test %zu, faces %d, data %p\n", sizeof(test), test.faces, test.face);
 	SDL_Init(SDL_INIT_VIDEO);
 	g_window = SDL_CreateWindow("tiny", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIN_WIDTH, WIN_HEIGHT, 0);
 	g_surface = SDL_GetWindowSurface(g_window);

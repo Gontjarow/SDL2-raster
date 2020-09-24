@@ -6,7 +6,7 @@
 #    By: ngontjar <ngontjar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/08 19:59:39 by msuarez-          #+#    #+#              #
-#    Updated: 2020/09/24 01:25:29 by ngontjar         ###   ########.fr        #
+#    Updated: 2020/09/24 02:46:19 by ngontjar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ SOURCES =	main.c \
 			vec2.c \
 			vec3.c \
 			vec4.c \
-			draw.c
+			draw.c \
+			model.c
 
 OBJECTS = $(subst .c,.o,$(SOURCES))
 

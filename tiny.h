@@ -4,8 +4,11 @@
 # include "libsdl/SDL.h"
 # include "libsdl/SDL_image.h"
 # include "libsdl/SDL_mixer.h"
+# include "libft/libft.h"
 
 # include <stdio.h>
+# include <fcntl.h>
+# include <assert.h>
 
 # define WIN_WIDTH 300
 # define WIN_HEIGHT 150
@@ -38,6 +41,8 @@ typedef struct	s_cam
 	t_xyz	pos;
 	t_xyz	rot;
 }				t_cam;
+
+# include "model.h"
 
 void			events();
 void			mouse_move(SDL_MouseMotionEvent e);
