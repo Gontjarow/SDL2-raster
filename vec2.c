@@ -43,3 +43,18 @@ t_xy	vec2_div(t_xy v, double divisor)
 {
 	return vec2_mul(v, 1 / divisor);
 }
+
+double	vec2_cross(t_xy a, t_xy b)
+{
+	return ((a.x * b.y) - (a.y * b.x));
+}
+
+double	vec2_slope(t_xy a, t_xy b)
+{
+	return ((a.y - b.y) / (a.x - b.x));
+}
+
+double	vec2_invslope(t_xy a, t_xy b)
+{
+	return ((a.x - b.x) / (a.y - b.y));
+}

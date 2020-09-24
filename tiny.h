@@ -58,6 +58,9 @@ t_xy			vec2_add(t_xy a, t_xy b);
 t_xy			vec2_sub(t_xy a, t_xy b);
 t_xy			vec2_mul(t_xy v, double factor);
 t_xy			vec2_div(t_xy v, double divisor);
+double			vec2_cross(t_xy a, t_xy b);
+double			vec2_slope(t_xy a, t_xy b);
+double			vec2_invslope(t_xy a, t_xy b);
 
 void			vec4p(t_xyzw v);
 t_xyzw			vec4(double x, double y, double z, double w);
