@@ -25,7 +25,7 @@ static void	fill_faces(t_face *face, int n, t_vert *buffer)
 {
 	int		i;
 
-	printf("fill face with %d verts\n", n);
+	// printf("fill face with %d verts\n", n);
 	assert(face->verts == n);
 	i = 0;
 	while (i < n)
@@ -39,7 +39,7 @@ static void	fill_mesh(t_mesh *mesh, int n, t_face *buffer)
 {
 	int		i;
 
-	printf("fill mesh with %d faces\n", n);
+	// printf("fill mesh with %d faces\n", n);
 	assert(mesh->faces == n);
 	i = 0;
 	while (i < n)
@@ -60,8 +60,8 @@ t_mesh	load_model(const char *file)
 	t_face	face_buffer[1024] = {0}; // Faces per mesh
 	t_mesh mesh;
 
-	printf("file_vertex %zu face_vertex %zu face_buffer %zu\n",
-		sizeof(file_vertex), sizeof(face_vertex), sizeof(face_buffer));
+	// printf("file_vertex %zu face_vertex %zu face_buffer %zu\n",
+	// 	sizeof(file_vertex), sizeof(face_vertex), sizeof(face_buffer));
 
 	while (vcount < 1024 && get_next_line(fd, &line) > 0)
 	{
@@ -69,7 +69,7 @@ t_mesh	load_model(const char *file)
 		// vertex
 		if (ft_strncmp(line, "v ", 2) == 0)
 		{
-			printf("read: \"%s\"\n", line);
+			printf("OBJ read: \"%s\"\n", line);
 			split = ft_strsplit(line, ' ');
 			file_vertex[vcount++] = vec3(
 				atof(split[1]),
@@ -80,7 +80,7 @@ t_mesh	load_model(const char *file)
 		// face
 		else if (ft_strncmp(line, "f ", 2) == 0)
 		{
-			printf("read: \"%s\"\n", line);
+			printf("OBJ read: \"%s\"\n", line);
 			split = ft_strsplit(line, ' ');
 			ssize_t i = 1;
 			while (split[i])
@@ -112,7 +112,7 @@ t_face		init_face(int n, ...)
 	t_face		face;
 	int			i;
 
-	printf("init face with %d verts\n", n);
+	// printf("init face with %d verts\n", n);
 	assert(3 <= n && n <= 16);
 	face = (t_face){0};
 	if (n > 0 && (face.vert = malloc(n * sizeof(t_vert))))

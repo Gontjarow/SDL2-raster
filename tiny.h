@@ -10,8 +10,8 @@
 # include <fcntl.h>
 # include <assert.h>
 
-# define WIN_WIDTH 300
-# define WIN_HEIGHT 150
+# define WIN_WIDTH 200
+# define WIN_HEIGHT 200
 # define WIN_MIDWIDTH (WIN_WIDTH / 2)
 # define WIN_MIDHEIGHT (WIN_HEIGHT / 2)
 

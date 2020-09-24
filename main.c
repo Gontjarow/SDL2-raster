@@ -10,20 +10,21 @@ t_cam		g_camera = {0};
 
 int main()
 {
-	t_mesh test = load_model("tiny-monk.obj");
+	t_mesh test = load_model("tiny-donut.obj");
 	g_debugmesh = &test;
 	printf("test model: faces %d, data %p\n", test.faces, test.face);
-	int i = 0;
-	while (i < test.faces)
-	{
-		int v = 0;
-		while (v < test.face[i].verts)
-		{
-			vec3p(test.face[i].vert[v]);
-			++v;
-		}
-		++i;
-	}
+	// int i = 0;
+	// while (i < test.faces)
+	// {
+	// 	int v = 0;
+	// 	while (v < test.face[i].verts)
+	// 	{
+	// 		vec3p(test.face[i].vert[v]);
+	// 		++v;
+	// 	}
+	// 	++i;
+	// }
+	printf("End of init output.\n");
 
 	SDL_Init(SDL_INIT_VIDEO);
 	g_window = SDL_CreateWindow("tiny", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIN_WIDTH, WIN_HEIGHT, 0);
@@ -60,7 +61,7 @@ void	events()
 
 void	mouse_move(SDL_MouseMotionEvent e)
 {
-	// todo
+	(void)e; // todo
 }
 
 /*
@@ -81,7 +82,7 @@ void	keyboard(SDL_KeyboardEvent e)
 
 void	render()
 {
-	Uint32 time = SDL_GetTicks();
+	// Uint32 time = SDL_GetTicks();
 
 	SDL_memset(g_surface->pixels, 0, WIN_WIDTH * g_surface->pitch);
 
@@ -91,16 +92,41 @@ void	render()
 	// draw(g_surface->pixels, center, end, 0xFFFF00);
 
 	for (int i = 0; i < g_debugmesh->faces; ++i)
-	for (int v = 0; v < g_debugmesh->face[i].verts - 1; ++v)
 	{
-		t_vert v1 = g_debugmesh->face[i].vert[v];
-		v1 = vec3_add(v1, vec3(2,1,0));
-		v1 = vec3_mul(v1, 80);
+		// original
+		t_face o = g_debugmesh->face[i];
 
-		t_vert v2 = g_debugmesh->face[i].vert[v + 1];
-		v2 = vec3_add(v2, vec3(2,1,0));
-		v2 = vec3_mul(v2, 80);
+		// face copy
+		t_face f = init_face(3,
+			o.vert[0],
+			o.vert[1],
+			o.vert[2]);
 
-		draw(g_surface->pixels, vec32(v1), vec32(v2), 0xFF8000);
+		// face normal
+		t_xyz normal = vec3_norm(vec3_cross(
+			vec3_sub(f.vert[2], f.vert[0]),
+			vec3_sub(f.vert[1], f.vert[0])));
+
+		// transformed
+		t_face tf = init_face(3,
+			vec3((f.vert[0].x+1) * WIN_MIDWIDTH, (f.vert[0].y+1) * WIN_MIDHEIGHT, 0),
+			vec3((f.vert[1].x+1) * WIN_MIDWIDTH, (f.vert[1].y+1) * WIN_MIDHEIGHT, 0),
+			vec3((f.vert[2].x+1) * WIN_MIDWIDTH, (f.vert[2].y+1) * WIN_MIDHEIGHT, 0));
+
+		// Calculate how much face aligns with the light
+		double light = vec3_dot(vec3(0,-1,0), normal);
+
+		if (light > 0)
+		{
+			// Greyscale brighrness; Same value used for R, G, and B
+			int color = 255 * light;
+			color = color | color << 8 | color << 16;
+
+			// Fix vertex order and draw
+			sort_tri(&tf);
+			draw_tri(g_surface->pixels, tf, color);
+		}
+		free_verts(&f);
+		free_verts(&tf);
 	}
 }
