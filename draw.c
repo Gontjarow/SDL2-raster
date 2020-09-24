@@ -4,7 +4,7 @@ void draw(unsigned int *pixel, t_xy start, t_xy end, int color)
 {
 	t_xy	dir;
 	t_xy	abs;
-	int		step;
+	float	step;
 	int		i;
 	int		index;
 
