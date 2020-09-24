@@ -45,12 +45,7 @@ static void	fill_mesh(t_mesh *mesh, int n, t_face *buffer)
 	i = 0;
 	while (i < n)
 	{
-		v = 0;
-		while (v < mesh->face[i].verts)
-		{
-			mesh->face[i].vert[v] = buffer[i].vert[v];
-			++v;
-		}
+		mesh->face[i] = buffer[i];
 		++i;
 	}
 }
@@ -95,14 +90,14 @@ t_mesh	load_model(const char *file)
 				face_vertex[i - 1] = file_vertex[vindex - 1];
 				++i;
 			}
-			face_buffer[fcount] = init_face(i - 1);
+			face_buffer[fcount] = init_face(i - 1); //! Technically very bad.
 			fill_faces(face_buffer + fcount, i - 1, face_vertex);
 			free_array(split);
 			++fcount;
 		}
 		free(line);
 	}
-	mesh = init_mesh(fcount);
+	mesh = init_mesh(fcount); //! Technically very bad.
 	fill_mesh(&mesh, fcount, face_buffer);
 	return (mesh);
 }
