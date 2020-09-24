@@ -8,9 +8,11 @@ SDL_Surface	*g_surface = NULL;
 t_mesh		*g_debugmesh;
 t_cam		g_camera = {0};
 
-int main()
+int main(int argc, char **argv)
 {
-	t_mesh test = load_model("tiny-donut.obj");
+	if (argc == 1) return (0);
+
+	t_mesh test = load_model(argv[1]);
 	g_debugmesh = &test;
 	printf("test model: faces %d, data %p\n", test.faces, test.face);
 	// int i = 0;
@@ -80,6 +82,10 @@ void	keyboard(SDL_KeyboardEvent e)
 		g_camera.pos.y -= 0.1;
 }
 
+/*
+** Note: In screen-space coordinates, +Z or "up" is towards the viewer.
+** Note: +X is left, +Y is down. Nothing special there.
+*/
 void	render()
 {
 	SDL_memset(g_surface->pixels, 0, WIN_WIDTH * g_surface->pitch);
@@ -87,13 +93,13 @@ void	render()
 	int i = 0;
 	while (i < g_debugmesh->faces)
 	{
-		// original face (just shorter name)
-		t_face f = g_debugmesh->face[i++];
+		// Vertex array (Currently assuming exactly 3 verts.)
+		t_vert *v = g_debugmesh->face[i++].vert;
 
-		// face normal
+		// Face-normal
 		t_xyz normal = vec3_norm(vec3_cross(
-			vec3_sub(f.vert[2], f.vert[0]),
-			vec3_sub(f.vert[1], f.vert[0])));
+			vec3_sub(v[2], v[0]),
+			vec3_sub(v[1], v[0])));
 
 		// How much the face aligns with the light
 		double light = vec3_dot(vec3(0,0,-1), normal);
@@ -102,14 +108,17 @@ void	render()
 		{
 			// Greyscale brightness; Same value used for R, G, and B
 			int color = 255 * light;
+			if (color < 64)
+				color = 0x2000FF;
+			else
 			color = color | color << 8 | color << 16;
 
-			// transformed face (moved and scaled to window size)
+			// Transformed face (moved and scaled to window size)
 			double s = 2;
 			t_face tf = init_face(3,
-				vec3((f.vert[0].x + s) * WIN_MIDWIDTH / s, (f.vert[0].y + s) * WIN_MIDHEIGHT / s, 0),
-				vec3((f.vert[1].x + s) * WIN_MIDWIDTH / s, (f.vert[1].y + s) * WIN_MIDHEIGHT / s, 0),
-				vec3((f.vert[2].x + s) * WIN_MIDWIDTH / s, (f.vert[2].y + s) * WIN_MIDHEIGHT / s, 0));
+				vec3((v[0].x + s) * WIN_MIDWIDTH / s, (v[0].y + s) * WIN_MIDHEIGHT / s, 0),
+				vec3((v[1].x + s) * WIN_MIDWIDTH / s, (v[1].y + s) * WIN_MIDHEIGHT / s, 0),
+				vec3((v[2].x + s) * WIN_MIDWIDTH / s, (v[2].y + s) * WIN_MIDHEIGHT / s, 0));
 
 			draw_tri(g_surface->pixels, tf, color);
 			free_verts(&tf);
