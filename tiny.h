@@ -49,7 +49,11 @@ void			mouse_move(SDL_MouseMotionEvent e);
 void			keyboard(SDL_KeyboardEvent e);
 void			render();
 
+void			sort_tri(t_face *face);
+void			swap_xyz(t_xyz *a, t_xyz *b);
+
 void			draw(unsigned int *pixel, t_xy start, t_xy end, int color);
+void			draw_tri(unsigned int *pixel, t_face face, int color);
 
 void			vec2p(t_xy v);
 t_xy			vec2(double x, double y);
