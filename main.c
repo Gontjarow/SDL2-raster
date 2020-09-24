@@ -82,51 +82,37 @@ void	keyboard(SDL_KeyboardEvent e)
 
 void	render()
 {
-	// Uint32 time = SDL_GetTicks();
-
 	SDL_memset(g_surface->pixels, 0, WIN_WIDTH * g_surface->pitch);
 
-	// t_xy center = vec2(WIN_MIDWIDTH, WIN_MIDHEIGHT);
-	// t_xy dir = vec2(cos(time * 0.01), sin(time * 0.01));
-	// t_xy end = vec2_add(center, vec2_mul(dir, 100));
-	// draw(g_surface->pixels, center, end, 0xFFFF00);
-
-	for (int i = 0; i < g_debugmesh->faces; ++i)
+	int i = 0;
+	while (i < g_debugmesh->faces)
 	{
-		// original
-		t_face o = g_debugmesh->face[i];
-
-		// face copy
-		t_face f = init_face(3,
-			o.vert[0],
-			o.vert[1],
-			o.vert[2]);
+		// original face (just shorter name)
+		t_face f = g_debugmesh->face[i++];
 
 		// face normal
 		t_xyz normal = vec3_norm(vec3_cross(
 			vec3_sub(f.vert[2], f.vert[0]),
 			vec3_sub(f.vert[1], f.vert[0])));
 
-		// transformed
-		t_face tf = init_face(3,
-			vec3((f.vert[0].x+1) * WIN_MIDWIDTH, (f.vert[0].y+1) * WIN_MIDHEIGHT, 0),
-			vec3((f.vert[1].x+1) * WIN_MIDWIDTH, (f.vert[1].y+1) * WIN_MIDHEIGHT, 0),
-			vec3((f.vert[2].x+1) * WIN_MIDWIDTH, (f.vert[2].y+1) * WIN_MIDHEIGHT, 0));
-
-		// Calculate how much face aligns with the light
-		double light = vec3_dot(vec3(0,-1,0), normal);
+		// How much the face aligns with the light
+		double light = vec3_dot(vec3(0,0,-1), normal);
 
 		if (light > 0)
 		{
-			// Greyscale brighrness; Same value used for R, G, and B
+			// Greyscale brightness; Same value used for R, G, and B
 			int color = 255 * light;
 			color = color | color << 8 | color << 16;
 
-			// Fix vertex order and draw
-			sort_tri(&tf);
+			// transformed face (moved and scaled to window size)
+			double s = 2;
+			t_face tf = init_face(3,
+				vec3((f.vert[0].x + s) * WIN_MIDWIDTH / s, (f.vert[0].y + s) * WIN_MIDHEIGHT / s, 0),
+				vec3((f.vert[1].x + s) * WIN_MIDWIDTH / s, (f.vert[1].y + s) * WIN_MIDHEIGHT / s, 0),
+				vec3((f.vert[2].x + s) * WIN_MIDWIDTH / s, (f.vert[2].y + s) * WIN_MIDHEIGHT / s, 0));
+
 			draw_tri(g_surface->pixels, tf, color);
+			free_verts(&tf);
 		}
-		free_verts(&f);
-		free_verts(&tf);
 	}
 }

@@ -35,6 +35,7 @@ void		draw_tri(unsigned int *pixel, t_face face, int color)
 	double	x1;
 	double	x2;
 
+	sort_tri(&face);
 	// printf("tri\n");
 	slope.x = vec2_invslope(vec32(face.vert[1]), vec32(face.vert[0])); // A->B
 	slope.z = vec2_invslope(vec32(face.vert[2]), vec32(face.vert[0])); // A->C
