@@ -9,8 +9,20 @@ t_cam		g_camera = {0};
 
 int main()
 {
-	t_mesh test = load_model("tiny-plane.obj");
-	printf("test %zu, faces %d, data %p\n", sizeof(test), test.faces, test.face);
+	t_mesh test = load_model("tiny-cube.obj");
+	printf("test model: faces %d, data %p\n", test.faces, test.face);
+	int i = 0;
+	while (i < test.faces)
+	{
+		int v = 0;
+		while (v < test.face[i].verts)
+		{
+			vec3p(test.face[i].vert[v]);
+			++v;
+		}
+		++i;
+	}
+
 	SDL_Init(SDL_INIT_VIDEO);
 	g_window = SDL_CreateWindow("tiny", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIN_WIDTH, WIN_HEIGHT, 0);
 	g_surface = SDL_GetWindowSurface(g_window);
@@ -25,7 +37,7 @@ int main()
 		uint32_t frame_ticks = SDL_GetTicks() - frame_start;
 		if (frame_ticks < 1000/60)
 			SDL_Delay(1000/60 - frame_ticks);
-		printf("frame ticks %u\n", frame_ticks);
+		// printf("frame ticks %u\n", frame_ticks);
 		SDL_UpdateWindowSurface(g_window);
 	}
 }

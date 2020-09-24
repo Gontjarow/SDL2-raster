@@ -38,7 +38,6 @@ static void	fill_faces(t_face *face, int n, t_vert *buffer)
 static void	fill_mesh(t_mesh *mesh, int n, t_face *buffer)
 {
 	int		i;
-	int		v;
 
 	printf("fill mesh with %d faces\n", n);
 	assert(mesh->faces == n);
