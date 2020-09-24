@@ -5,11 +5,13 @@ SDL_Window	*g_window = NULL;
 SDL_Surface	*g_surface = NULL;
 // const Uint8	*g_keystate; // Is this even needed if we poll events?
 
+t_mesh		*g_debugmesh;
 t_cam		g_camera = {0};
 
 int main()
 {
-	t_mesh test = load_model("tiny-cube.obj");
+	t_mesh test = load_model("tiny-monk.obj");
+	g_debugmesh = &test;
 	printf("test model: faces %d, data %p\n", test.faces, test.face);
 	int i = 0;
 	while (i < test.faces)
@@ -83,8 +85,22 @@ void	render()
 
 	SDL_memset(g_surface->pixels, 0, WIN_WIDTH * g_surface->pitch);
 
-	t_xy center = vec2(WIN_MIDWIDTH, WIN_MIDHEIGHT);
-	t_xy dir = vec2(cos(time * 0.01), sin(time * 0.01));
-	t_xy end = vec2_add(center, vec2_mul(dir, 100));
-	draw(g_surface->pixels, center, end, 0xFFFF00);
+	// t_xy center = vec2(WIN_MIDWIDTH, WIN_MIDHEIGHT);
+	// t_xy dir = vec2(cos(time * 0.01), sin(time * 0.01));
+	// t_xy end = vec2_add(center, vec2_mul(dir, 100));
+	// draw(g_surface->pixels, center, end, 0xFFFF00);
+
+	for (int i = 0; i < g_debugmesh->faces; ++i)
+	for (int v = 0; v < g_debugmesh->face[i].verts - 1; ++v)
+	{
+		t_vert v1 = g_debugmesh->face[i].vert[v];
+		v1 = vec3_add(v1, vec3(2,1,0));
+		v1 = vec3_mul(v1, 80);
+
+		t_vert v2 = g_debugmesh->face[i].vert[v + 1];
+		v2 = vec3_add(v2, vec3(2,1,0));
+		v2 = vec3_mul(v2, 80);
+
+		draw(g_surface->pixels, vec32(v1), vec32(v2), 0xFF8000);
+	}
 }
