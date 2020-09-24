@@ -1,5 +1,10 @@
 #include "tiny.h"
 
+void	vec4p(t_xyzw v)
+{
+	printf("\n{%8.3f, %8.3f, %8.3f, %8.3f}\n", v.x, v.y, v.z, v.w);
+}
+
 t_xyzw	vec4(double x, double y, double z, double w)
 {
 	return ((t_xyzw){x, y, z, w});

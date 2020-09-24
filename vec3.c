@@ -1,5 +1,10 @@
 #include "tiny.h"
 
+void	vec3p(t_xyz v)
+{
+	printf("\n{%8.3f, %8.3f, %8.3f}\n", v.x, v.y, v.z);
+}
+
 t_xyz	vec3(double x, double y, double z)
 {
 	return ((t_xyz){x, y, z});

@@ -1,5 +1,10 @@
 #include "tiny.h"
 
+void	vec2p(t_xy v)
+{
+	printf("\n{%8.3f, %8.3f}\n", v.x, v.y);
+}
+
 t_xy	vec2(double x, double y)
 {
 	return ((t_xy){x, y});
