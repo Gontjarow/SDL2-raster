@@ -27,30 +27,29 @@ void draw(unsigned int *pixel, t_xy start, t_xy end, int color)
 }
 
 // Fixed, exactly 3-vert triangle, assumes height-sorted order.
-
 void		draw_tri(unsigned int *pixel, t_face face, int color)
 {
-	t_xyz	slope;
-	double	scanline;
-	double	x1;
-	double	x2;
+	t_vert v1 = face.vert[0];
+	t_vert v2 = face.vert[1];
+	t_vert v3 = face.vert[2];
+	t_xy min = bb_min(face);
+	t_xy max = bb_max(face);
 
-	sort_tri(&face);
-	// printf("tri\n");
-	slope.x = vec2_invslope(vec32(face.vert[1]), vec32(face.vert[0])); // A->B
-	slope.z = vec2_invslope(vec32(face.vert[2]), vec32(face.vert[0])); // A->C
-	slope.y = vec2_invslope(vec32(face.vert[2]), vec32(face.vert[1])); // B->C
-	scanline = face.vert[0].y;
-	x2 = face.vert[0].x;
-	x1 = (face.vert[0].y == face.vert[1].y) ? face.vert[1].x : face.vert[0].x;
-	// printf("tri verts:"); vec3p(face.vert[0]); vec3p(face.vert[1]); vec3p(face.vert[2]);
-	// printf("x1: %f x2: %f line: %f\n", x1, x2, scanline);
-	while (scanline < face.vert[2].y)
+	t_xy vs1 = vec32(vec3_sub(v2, v1));
+	t_xy vs2 = vec32(vec3_sub(v3, v1));
+
+	// printf("\ntri: min %f,%f max %f,%f\n", min.x,min.y, max.x,max.y);
+	for (int y = min.y; y < max.y; ++y)
+	for (int x = min.x; x < max.x; ++x)
 	{
-		// printf("scanline %f\n", scanline);
-		draw(pixel, vec2(x1, scanline), vec2(x2, scanline), color);
-		x1 += (scanline < face.vert[1].y) ? slope.x : slope.y;
-		x2 += slope.z;
-		++scanline;
+		t_xy q = vec2(x - v1.x, y - v1.y);
+
+		double s = vec2_cross(q, vs2) / vec2_cross(vs1, vs2);
+		double t = vec2_cross(vs1, q) / vec2_cross(vs1, vs2);
+
+		if ((s>=0) && (t>=0) && (s+t<=1))
+		{
+			pixel[x + y * WIN_WIDTH] = color;
+		}
 	}
 }

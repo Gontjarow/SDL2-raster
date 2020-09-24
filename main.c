@@ -80,6 +80,8 @@ void	keyboard(SDL_KeyboardEvent e)
 		g_camera.pos.x -= 0.1;
 	if (e.keysym.scancode == SDL_SCANCODE_D) // right
 		g_camera.pos.y -= 0.1;
+	if (e.keysym.scancode == SDL_SCANCODE_ESCAPE)
+		exit(0);
 }
 
 /*
@@ -101,20 +103,20 @@ void	render()
 			vec3_sub(v[2], v[0]),
 			vec3_sub(v[1], v[0])));
 
+		// How much the face aligns with the camera (backface culling)
+		double facing = vec3_dot(vec3(0,0,-1), normal); //? Doesn't this contradict "+Z towards camera"
+		if (facing > 0)
+		{
 		// How much the face aligns with the light
 		double light = vec3_dot(vec3(0,0,-1), normal);
-
-		if (light > 0)
+			if (light > 0)
 		{
 			// Greyscale brightness; Same value used for R, G, and B
-			int color = 255 * light;
-			if (color < 64)
-				color = 0x2000FF;
-			else
+				int color = 255 * light; if (color < 0) color = 0;
 			color = color | color << 8 | color << 16;
 
 			// Transformed face (moved and scaled to window size)
-			double s = 2;
+				double s = 1.5;
 			t_face tf = init_face(3,
 				vec3((v[0].x + s) * WIN_MIDWIDTH / s, (v[0].y + s) * WIN_MIDHEIGHT / s, 0),
 				vec3((v[1].x + s) * WIN_MIDWIDTH / s, (v[1].y + s) * WIN_MIDHEIGHT / s, 0),
@@ -122,6 +124,10 @@ void	render()
 
 			draw_tri(g_surface->pixels, tf, color);
 			free_verts(&tf);
+
+				SDL_UpdateWindowSurface(g_window);
+				SDL_Delay(15);
 		}
 	}
+}
 }
