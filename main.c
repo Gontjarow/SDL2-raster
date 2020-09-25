@@ -3,7 +3,6 @@
 int			g_quit = 0;
 SDL_Window	*g_window = NULL;
 SDL_Surface	*g_surface = NULL;
-// const Uint8	*g_keystate; // Is this even needed if we poll events?
 
 t_mesh		*g_debugmesh;
 t_cam		g_camera = {0};
@@ -31,9 +30,9 @@ int main(int argc, char **argv)
 	SDL_Init(SDL_INIT_VIDEO);
 	g_window = SDL_CreateWindow("tiny", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIN_WIDTH, WIN_HEIGHT, 0);
 	g_surface = SDL_GetWindowSurface(g_window);
+
 	while (g_quit == 0)
 	{
-		//g_keystate = SDL_GetKeyboardState(NULL);
 		uint32_t frame_start = SDL_GetTicks();
 
 		events();

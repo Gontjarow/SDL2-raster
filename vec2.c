@@ -58,3 +58,13 @@ double	vec2_invslope(t_xy a, t_xy b)
 {
 	return ((a.x - b.x) / (a.y - b.y));
 }
+
+t_xy	vec2_clamp(t_xy v, double min, double max)
+{
+	assert(min < max);
+	v.x = (v.x > min) ? v.x : min;
+	v.x = (v.x < max) ? v.x : max;
+	v.y = (v.y > min) ? v.y : min;
+	v.y = (v.y < max) ? v.y : max;
+	return (v);
+}

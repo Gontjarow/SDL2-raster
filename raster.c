@@ -36,7 +36,7 @@ t_xy		bb_min(t_face face)
 		if (current.x < lowest.x) lowest.x = current.x;
 		++i;
 	}
-	return vec32(lowest);
+	return vec2_clamp(vec2(lowest.x, lowest.y), 0, WIN_WIDTH);
 }
 
 // Raster-space bounding box
@@ -55,7 +55,7 @@ t_xy		bb_max(t_face face)
 		if (current.x > highest.x) highest.x = current.x;
 		++i;
 	}
-	return vec32(highest);
+	return vec2_clamp(vec2(highest.x, highest.y), 0, WIN_HEIGHT);
 }
 
 // Note: left < 0,  edge == 0,  right > 0
@@ -76,4 +76,17 @@ int inside(t_xy p, t_face face)
 	return (edge(p, v0, v1) <= 0
 		&& (edge(p, v1, v2) <= 0)
 		&& (edge(p, v2, v0) <= 0));
+}
+
+t_xyz	bary(t_xy p, t_face face)
+{
+	t_xy v0 = vec32(face.vert[0]);
+	t_xy v1 = vec32(face.vert[1]);
+	t_xy v2 = vec32(face.vert[2]);
+	t_xyz weight;
+
+	weight.x = edge(p, v0, v1);
+	weight.y = edge(p, v1, v2);
+	weight.z = edge(p, v2, v0);
+	return (weight);
 }
