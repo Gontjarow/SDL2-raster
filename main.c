@@ -98,7 +98,7 @@ void	render()
 		// Vertex array (Currently assuming exactly 3 verts.)
 		t_vert *v = g_debugmesh->face[i++].vert;
 
-		// Face-normal
+		// Face-normal (counter-clockwise vertex order)
 		t_xyz normal = vec3_norm(vec3_cross(
 			vec3_sub(v[1], v[0]),
 			vec3_sub(v[2], v[0])));
@@ -124,7 +124,7 @@ void	render()
 					vec3((v[1].x + s) * WIN_MIDWIDTH / s, (v[1].y + s) * WIN_MIDHEIGHT / s, 0),
 					vec3((v[2].x + s) * WIN_MIDWIDTH / s, (v[2].y + s) * WIN_MIDHEIGHT / s, 0));
 
-				draw_tri(g_surface->pixels, tf, color);
+				draw_tribary(g_surface->pixels, tf, color);
 				free_verts(&tf);
 
 				SDL_UpdateWindowSurface(g_window);

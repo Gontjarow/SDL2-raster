@@ -39,7 +39,6 @@ void		draw_tri(unsigned int *pixel, t_face face, int color)
 	t_xy vs1 = vec32(vec3_sub(v2, v1));
 	t_xy vs2 = vec32(vec3_sub(v3, v1));
 
-	// printf("\ntri: min %f,%f max %f,%f\n", min.x,min.y, max.x,max.y);
 	for (int y = min.y; y < max.y; ++y)
 	for (int x = min.x; x < max.x; ++x)
 	{
@@ -65,8 +64,7 @@ void		draw_tribary(unsigned int *pixel, t_face face, int color)
 	for (int y = min.y; y < max.y; ++y)
 	for (int x = min.x; x < max.x; ++x)
 	{
-		t_xy p = vec2(x - v0.x, y - v0.y);
-		if (inside(p, face))
+		if (inside(vec2(x, y), face))
 		{
 			pixel[x + y * WIN_WIDTH] = color;
 		}
