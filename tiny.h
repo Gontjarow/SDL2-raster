@@ -59,7 +59,6 @@ t_xyz			bary(t_xy p, t_face face);
 
 void			draw(unsigned int *pixel, t_xy start, t_xy end, int color);
 void			draw_tri(unsigned int *pixel, t_face face, int color);
-void			draw_tribary(unsigned int *pixel, t_face face, int color);
 
 void			vec2p(t_xy v);
 t_xy			vec2(double x, double y);

@@ -123,7 +123,7 @@ void	render()
 					vec3((v[1].x + s) * WIN_MIDWIDTH / s, (v[1].y + s) * WIN_MIDHEIGHT / s, 0),
 					vec3((v[2].x + s) * WIN_MIDWIDTH / s, (v[2].y + s) * WIN_MIDHEIGHT / s, 0));
 
-				draw_tribary(g_surface->pixels, tf, color);
+				draw_tri(g_surface->pixels, tf, color);
 				free_verts(&tf);
 
 				SDL_UpdateWindowSurface(g_window);
