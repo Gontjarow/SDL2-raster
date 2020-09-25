@@ -53,6 +53,8 @@ void			sort_tri(t_face *face);
 void			swap_xyz(t_xyz *a, t_xyz *b);
 t_xy			bb_min(t_face face);
 t_xy			bb_max(t_face face);
+double			edge(t_xy p, t_xy a, t_xy b);
+int				inside(t_xy p, t_face face);
 
 void			draw(unsigned int *pixel, t_xy start, t_xy end, int color);
 void			draw_tri(unsigned int *pixel, t_face face, int color);

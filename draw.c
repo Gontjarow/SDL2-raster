@@ -26,7 +26,8 @@ void draw(unsigned int *pixel, t_xy start, t_xy end, int color)
 	}
 }
 
-// Fixed, exactly 3-vert triangle, assumes height-sorted order.
+// Fixed, exactly 3-vert triangle.
+// Note: wavefront.obj triangles have verts in counter-clockwise order.
 void		draw_tri(unsigned int *pixel, t_face face, int color)
 {
 	t_vert v1 = face.vert[0];
@@ -48,6 +49,24 @@ void		draw_tri(unsigned int *pixel, t_face face, int color)
 		double t = vec2_cross(vs1, q) / vec2_cross(vs1, vs2);
 
 		if ((s>=0) && (t>=0) && (s+t<=1))
+		{
+			pixel[x + y * WIN_WIDTH] = color;
+		}
+	}
+}
+
+// Attempt at optimizing the above draw_tri, will replace if successful.
+void		draw_tribary(unsigned int *pixel, t_face face, int color)
+{
+	t_xy v0 = vec32(face.vert[0]);
+	t_xy min = bb_min(face);
+	t_xy max = bb_max(face);
+
+	for (int y = min.y; y < max.y; ++y)
+	for (int x = min.x; x < max.x; ++x)
+	{
+		t_xy p = vec2(x - v0.x, y - v0.y);
+		if (inside(p, face))
 		{
 			pixel[x + y * WIN_WIDTH] = color;
 		}

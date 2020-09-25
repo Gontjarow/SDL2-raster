@@ -57,3 +57,23 @@ t_xy		bb_max(t_face face)
 	}
 	return vec32(highest);
 }
+
+// Note: left < 0,  edge == 0,  right > 0
+double edge(t_xy p, t_xy a, t_xy b)
+{
+	return ((p.x - a.x) * (b.y - a.y) - (p.y - a.y) * (b.x - a.x));
+}
+
+// Note: Triangles are assumed to be in CCW order as per Wavefront.
+// When this is the case, the INSIDE of the triangle
+// is on the left side of each edge. (negative space)
+int inside(t_xy p, t_face face)
+{
+	t_xy v0 = vec32(face.vert[0]);
+	t_xy v1 = vec32(face.vert[1]);
+	t_xy v2 = vec32(face.vert[2]);
+
+	return (edge(p, v0, v1) <= 0
+		&& (edge(p, v1, v2) <= 0)
+		&& (edge(p, v2, v0) <= 0));
+}
