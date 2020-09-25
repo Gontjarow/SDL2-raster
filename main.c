@@ -100,34 +100,57 @@ void	render()
 
 		// Face-normal
 		t_xyz normal = vec3_norm(vec3_cross(
-			vec3_sub(v[2], v[0]),
-			vec3_sub(v[1], v[0])));
+			vec3_sub(v[1], v[0]),
+			vec3_sub(v[2], v[0])));
 
 		// How much the face aligns with the camera (backface culling)
-		double facing = vec3_dot(vec3(0,0,-1), normal); //? Doesn't this contradict "+Z towards camera"
+		double facing = vec3_dot(vec3(0,0,1), normal);
 		if (facing > 0)
 		{
-		// How much the face aligns with the light
-		double light = vec3_dot(vec3(0,0,-1), normal);
+			// How much the face aligns with the light
+			// Note: Normal must face in the OPPOSITE direction as the light-source to be lit.
+			// ☀️-->   <-|
+			double light = -vec3_dot(vec3(0,0,-1), normal);
 			if (light > 0)
-		{
-			// Greyscale brightness; Same value used for R, G, and B
-				int color = 255 * light; if (color < 0) color = 0;
-			color = color | color << 8 | color << 16;
+			{
+				// Greyscale brightness; Same value used for R, G, and B
+				int color = 255 * light;
+				color = color | color << 8 | color << 16;
 
-			// Transformed face (moved and scaled to window size)
+				// Transformed face (moved and scaled to window size)
 				double s = 1.5;
-			t_face tf = init_face(3,
-				vec3((v[0].x + s) * WIN_MIDWIDTH / s, (v[0].y + s) * WIN_MIDHEIGHT / s, 0),
-				vec3((v[1].x + s) * WIN_MIDWIDTH / s, (v[1].y + s) * WIN_MIDHEIGHT / s, 0),
-				vec3((v[2].x + s) * WIN_MIDWIDTH / s, (v[2].y + s) * WIN_MIDHEIGHT / s, 0));
+				t_face tf = init_face(3,
+					vec3((v[0].x + s) * WIN_MIDWIDTH / s, (v[0].y + s) * WIN_MIDHEIGHT / s, 0),
+					vec3((v[1].x + s) * WIN_MIDWIDTH / s, (v[1].y + s) * WIN_MIDHEIGHT / s, 0),
+					vec3((v[2].x + s) * WIN_MIDWIDTH / s, (v[2].y + s) * WIN_MIDHEIGHT / s, 0));
 
-			draw_tri(g_surface->pixels, tf, color);
-			free_verts(&tf);
+				draw_tri(g_surface->pixels, tf, color);
+				free_verts(&tf);
 
 				SDL_UpdateWindowSurface(g_window);
 				SDL_Delay(15);
+			}
 		}
 	}
 }
+
+void	render_triangle_test()
+{
+	SDL_memset(g_surface->pixels, 0, WIN_WIDTH * g_surface->pitch);
+	Uint32 time = SDL_GetTicks() * 0.01;
+
+	t_vert v[3];
+	v[0] = vec3(cos(time * 0.1), sin(time * 0.1), 0);
+	v[1] = vec3(sin(time * 0.02), cos(time * 0.02), 0);
+	v[2] = vec3(0,0,0);
+
+	// Transformed face (moved and scaled to window size)
+	double s = 2;
+	t_face tf = init_face(3,
+		vec3((v[0].x + s) * WIN_MIDWIDTH / s, (v[0].y + s) * WIN_MIDHEIGHT / s, 0),
+		vec3((v[1].x + s) * WIN_MIDWIDTH / s, (v[1].y + s) * WIN_MIDHEIGHT / s, 0),
+		vec3((v[2].x + s) * WIN_MIDWIDTH / s, (v[2].y + s) * WIN_MIDHEIGHT / s, 0));
+
+	draw_tri(g_surface->pixels, tf, 0x2000FF);
+	free_verts(&tf);
 }
