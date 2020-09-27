@@ -15,6 +15,9 @@
 # define WIN_MIDWIDTH (WIN_WIDTH / 2)
 # define WIN_MIDHEIGHT (WIN_HEIGHT / 2)
 
+typedef double	t_deg;
+typedef double	t_rad;
+
 typedef struct	s_xy
 {
 	double x;
@@ -35,6 +38,31 @@ typedef struct	s_xyzw
 	double z;
 	double w;
 }				t_xyzw;
+
+typedef struct	s_matrix
+{
+	double m[4][4];
+}				t_matrix;
+
+#define Xx m[0][0]
+#define Xy m[1][0]
+#define Xz m[2][0]
+#define Xw m[3][0]
+
+#define Yx m[0][1]
+#define Yy m[1][1]
+#define Yz m[2][1]
+#define Yw m[3][1]
+
+#define Zx m[0][2]
+#define Zy m[1][2]
+#define Zz m[2][2]
+#define Zw m[3][2]
+
+#define Tx m[0][3]
+#define Ty m[1][3]
+#define Tz m[2][3]
+#define Tw m[3][3]
 
 typedef struct	s_cam
 {
@@ -93,5 +121,14 @@ t_xyz			vec3_norm(t_xyz v);
 double			vec3_dot(t_xyz a, t_xyz b);
 t_xyz			vec3_cross(t_xyz a, t_xyz b);
 double			vec3_dist(t_xyz a, t_xyz b);
+
+t_matrix		identity_m();
+t_matrix		scale_m(double x, double y, double z);
+t_matrix		translate_m(double x, double y, double z);
+t_matrix		rotate_x(t_rad angle);
+t_matrix		rotate_y(t_rad angle);
+t_matrix		rotate_x(t_rad angle);
+t_matrix		multiply_m(t_matrix a, t_matrix b);
+t_xyzw			apply_m(t_matrix m, t_xyzw v);
 
 #endif

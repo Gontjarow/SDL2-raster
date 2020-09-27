@@ -6,7 +6,7 @@
 #    By: ngontjar <ngontjar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/08 19:59:39 by msuarez-          #+#    #+#              #
-#    Updated: 2020/09/24 08:28:22 by ngontjar         ###   ########.fr        #
+#    Updated: 2020/09/25 14:33:49 by ngontjar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ SOURCES =	main.c \
 			vec2.c \
 			vec3.c \
 			vec4.c \
+			mat4.c \
 			draw.c \
 			model.c \
 			raster.c
