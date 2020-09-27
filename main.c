@@ -3,6 +3,7 @@
 int			g_quit = 0;
 SDL_Window	*g_window = NULL;
 SDL_Surface	*g_surface = NULL;
+double		*g_zbuffer;
 
 t_mesh		*g_debugmesh;
 t_cam		g_camera = {0};
@@ -32,6 +33,7 @@ int main(int argc, char **argv)
 	SDL_Init(SDL_INIT_VIDEO);
 	g_window = SDL_CreateWindow("tiny", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIN_WIDTH, WIN_HEIGHT, 0);
 	g_surface = SDL_GetWindowSurface(g_window);
+	g_zbuffer = malloc(sizeof(*g_zbuffer) * WIN_WIDTH * WIN_HEIGHT);
 
 	while (g_quit == 0)
 	{
@@ -92,6 +94,12 @@ void	keyboard(SDL_KeyboardEvent e)
 void	render()
 {
 	SDL_memset(g_surface->pixels, 0, WIN_WIDTH * g_surface->pitch);
+	for (size_t y = 0; y < WIN_HEIGHT; ++y)
+	for (size_t x = 0; x < WIN_WIDTH; ++x)
+	{
+		g_zbuffer[x + y * WIN_WIDTH] = INFINITY;
+	}
+
 	// Todo: Basic transformation matrix
 	// !!! : Fix segfault
 	// t_matrix	project = project_pure_m();
