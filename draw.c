@@ -30,9 +30,6 @@ void draw(unsigned int *pixel, t_xy start, t_xy end, int color)
 // Note: wavefront.obj triangles have verts in counter-clockwise order.
 void		draw_tri(unsigned int *pixel, t_face face, int color)
 {
-	t_xy v0 = vec32(face.vert[0]);
-	t_xy v1 = vec32(face.vert[1]);
-	t_xy v2 = vec32(face.vert[2]);
 	t_xy min = bb_min(face);
 	t_xy max = bb_max(face);
 
@@ -48,9 +45,9 @@ void		draw_tri(unsigned int *pixel, t_face face, int color)
 
 void		draw_tri_color(unsigned int *pixel, t_face face)
 {
-	t_xy v0 = vec32(face.vert[0]);
-	t_xy v1 = vec32(face.vert[1]);
-	t_xy v2 = vec32(face.vert[2]);
+	t_xy v0 = vec42(face.vert[0]);
+	t_xy v1 = vec42(face.vert[1]);
+	t_xy v2 = vec42(face.vert[2]);
 	t_xy min = bb_min(face);
 	t_xy max = bb_max(face);
 

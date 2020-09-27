@@ -1,8 +1,8 @@
 #include "tiny.h"
 
-void		swap_xyz(t_xyz *a, t_xyz *b)
+void		swap_xyzw(t_xyzw *a, t_xyzw *b)
 {
-	t_xyz c;
+	t_xyzw c;
 	c = *a;
 	*a = *b;
 	*b = c;
@@ -12,11 +12,11 @@ void		swap_xyz(t_xyz *a, t_xyz *b)
 void		sort_tri(t_face *face)
 {
 	if (face->vert[1].y < face->vert[0].y)
-		swap_xyz(&face->vert[0], &face->vert[1]);
+		swap_xyzw(&face->vert[0], &face->vert[1]);
 	if (face->vert[2].y < face->vert[1].y)
-		swap_xyz(&face->vert[1], &face->vert[2]);
+		swap_xyzw(&face->vert[1], &face->vert[2]);
 	if (face->vert[1].y < face->vert[0].y)
-		swap_xyz(&face->vert[0], &face->vert[1]);
+		swap_xyzw(&face->vert[0], &face->vert[1]);
 	assert(face->vert[0].y <= face->vert[1].y && face->vert[1].y <= face->vert[2].y);
 }
 
@@ -69,9 +69,9 @@ double edge(t_xy p, t_xy a, t_xy b)
 // is on the left side of each edge. (negative space)
 int inside(t_xy p, t_face face)
 {
-	t_xy v0 = vec32(face.vert[0]);
-	t_xy v1 = vec32(face.vert[1]);
-	t_xy v2 = vec32(face.vert[2]);
+	t_xy v0 = vec42(face.vert[0]);
+	t_xy v1 = vec42(face.vert[1]);
+	t_xy v2 = vec42(face.vert[2]);
 
 	return (edge(p, v0, v1) <= 0
 		&& (edge(p, v1, v2) <= 0)
@@ -80,9 +80,9 @@ int inside(t_xy p, t_face face)
 
 t_xyz	bary(t_xy p, t_face face)
 {
-	t_xy v0 = vec32(face.vert[0]);
-	t_xy v1 = vec32(face.vert[1]);
-	t_xy v2 = vec32(face.vert[2]);
+	t_xy v0 = vec42(face.vert[0]);
+	t_xy v1 = vec42(face.vert[1]);
+	t_xy v2 = vec42(face.vert[2]);
 	t_xyz weight;
 
 	weight.x = edge(p, v0, v1);

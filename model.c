@@ -71,10 +71,11 @@ t_mesh	load_model(const char *file)
 		{
 			// printf("OBJ read: \"%s\"\n", line);
 			split = ft_strsplit(line, ' ');
-			file_vertex[vcount++] = vec3(
+			file_vertex[vcount++] = vec4(
 				atof(split[1]),
 				atof(split[2]),
-				atof(split[3]));
+				atof(split[3]),
+				T_POS);
 			free_array(split);
 		}
 		// face
@@ -179,8 +180,8 @@ void		mesh_draw(unsigned int *surface, const t_mesh *mesh)
 {
 	int i;
 	int p;
-	t_xyz start;
-	t_xyz end;
+	t_vert start;
+	t_vert end;
 
 	// printf("enter mesh_draw (%i faces)\n", mesh->faces);
 	i = 0;
@@ -191,12 +192,12 @@ void		mesh_draw(unsigned int *surface, const t_mesh *mesh)
 		{
 			start = mesh->face[i].vert[p++];
 			end = mesh->face[i].vert[p];
-			draw(surface, vec32(start), vec32(end), 0xFFFFFF);
+			draw(surface, vec42(start), vec42(end), 0xFFFFFF);
 			// printf("loop draw {%.1f %.1f} - {%.1f %.1f}\n", start.x, start.y, end.x, end.y);
 		}
 		start = mesh->face[i].vert[p];
 		end = mesh->face[i].vert[0];
-			draw(surface, vec32(start), vec32(end), 0xFFFFFF);
+			draw(surface, vec42(start), vec42(end), 0xFFFFFF);
 		// printf("last draw {%.1f %.1f} - {%.1f %.1f}\n", start.x, start.y, end.x, end.y);
 		++i;
 	}

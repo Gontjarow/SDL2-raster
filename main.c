@@ -92,6 +92,10 @@ void	keyboard(SDL_KeyboardEvent e)
 void	render()
 {
 	SDL_memset(g_surface->pixels, 0, WIN_WIDTH * g_surface->pitch);
+	// Todo: Basic transformation matrix
+	// !!! : Fix segfault
+	// t_matrix	project = project_pure_m();
+	// t_mesh		projected = mesh_transform(project, *g_debugmesh);
 
 	int i = 0;
 	while (i < g_debugmesh->faces)
@@ -100,9 +104,9 @@ void	render()
 		t_vert *v = g_debugmesh->face[i++].vert;
 
 		// Face-normal (counter-clockwise vertex order)
-		t_xyz normal = vec3_norm(vec3_cross(
-			vec3_sub(v[1], v[0]),
-			vec3_sub(v[2], v[0])));
+		t_xyz normal = vec3_norm(vec4_cross(
+			vec4_sub(v[1], v[0]),
+			vec4_sub(v[2], v[0])));
 
 		// How much the face aligns with the camera (backface culling)
 		// Note: The face must have the opposite direction as the camera to be seen.
@@ -121,11 +125,12 @@ void	render()
 				color = color | color << 8 | color << 16;
 
 				// Transformed face (moved and scaled to window size)
+				// return;
 				double s = 1.5;
 				t_face tf = init_face(3,
-					vec3((v[0].x + s) * WIN_MIDWIDTH / s, (v[0].y + s) * WIN_MIDHEIGHT / s, 0),
-					vec3((v[1].x + s) * WIN_MIDWIDTH / s, (v[1].y + s) * WIN_MIDHEIGHT / s, 0),
-					vec3((v[2].x + s) * WIN_MIDWIDTH / s, (v[2].y + s) * WIN_MIDHEIGHT / s, 0));
+					vec4((v[0].x + s) * WIN_MIDWIDTH / s, (v[0].y + s) * WIN_MIDHEIGHT / s, 0, T_POS),
+					vec4((v[1].x + s) * WIN_MIDWIDTH / s, (v[1].y + s) * WIN_MIDHEIGHT / s, 0, T_POS),
+					vec4((v[2].x + s) * WIN_MIDWIDTH / s, (v[2].y + s) * WIN_MIDHEIGHT / s, 0, T_POS));
 
 				draw_tri(g_surface->pixels, tf, color);
 				free_verts(&tf);
@@ -143,9 +148,9 @@ void	render_triangle_test()
 	Uint32 time = SDL_GetTicks() * 0.01;
 
 	t_vert v[3];
-	v[0] = vec3(cos(time * 0.1), sin(time * 0.1), 0);
-	v[1] = vec3(sin(time * 0.02), cos(time * 0.02), 0);
-	v[2] = vec3(0,0,0);
+	v[0] = vec4(cos(time * 0.1), sin(time * 0.1), 0, 0);
+	v[1] = vec4(sin(time * 0.02), cos(time * 0.02), 0, 0);
+	v[2] = vec4(0, 0, 0, 0);
 
 	// Transformed face (moved and scaled to window size)
 	double s = 2;

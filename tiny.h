@@ -15,6 +15,9 @@
 # define WIN_MIDWIDTH (WIN_WIDTH / 2)
 # define WIN_MIDHEIGHT (WIN_HEIGHT / 2)
 
+# define T_DIR 0.0
+# define T_POS 1.0
+
 typedef double	t_deg;
 typedef double	t_rad;
 
@@ -38,6 +41,10 @@ typedef struct	s_xyzw
 	double z;
 	double w;
 }				t_xyzw;
+
+typedef t_xyzw	t_dir;
+typedef t_xyzw	t_pos;
+typedef t_xyzw	t_vert;
 
 typedef struct	s_matrix
 {
@@ -78,7 +85,7 @@ void			keyboard(SDL_KeyboardEvent e);
 void			render();
 
 void			sort_tri(t_face *face);
-void			swap_xyz(t_xyz *a, t_xyz *b);
+void			swap_xyzw(t_xyzw *a, t_xyzw *b);
 t_xy			bb_min(t_face face);
 t_xy			bb_max(t_face face);
 double			edge(t_xy p, t_xy a, t_xy b);
