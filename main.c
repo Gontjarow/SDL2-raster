@@ -7,6 +7,8 @@ SDL_Surface	*g_surface = NULL;
 t_mesh		*g_debugmesh;
 t_cam		g_camera = {0};
 
+void	render_triangle_test();
+
 int main(int argc, char **argv)
 {
 	if (argc == 1) return (0);
@@ -103,12 +105,14 @@ void	render()
 			vec3_sub(v[2], v[0])));
 
 		// How much the face aligns with the camera (backface culling)
-		double facing = vec3_dot(vec3(0,0,1), normal);
+		// Note: The face must have the opposite direction as the camera to be seen.
+		// 📷-->   <-|
+		double facing = -vec3_dot(vec3(0,0,-1), normal);
 		if (facing > 0)
 		{
 			// How much the face aligns with the light
 			// Note: Normal must face in the OPPOSITE direction as the light-source to be lit.
-			// ☀️-->   <-|
+			// 💡-->   <-|
 			double light = -vec3_dot(vec3(0,0,-1), normal);
 			if (light > 0)
 			{

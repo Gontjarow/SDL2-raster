@@ -88,6 +88,10 @@ t_xyz			bary(t_xy p, t_face face);
 void			draw(unsigned int *pixel, t_xy start, t_xy end, int color);
 void			draw_tri(unsigned int *pixel, t_face face, int color);
 
+/*
+** Math is fun, okay? ⤵️
+*/
+
 void			vec2p(t_xy v);
 t_xy			vec2(double x, double y);
 t_xyz			vec23(t_xy v, double z);
@@ -99,14 +103,6 @@ double			vec2_cross(t_xy a, t_xy b);
 double			vec2_slope(t_xy a, t_xy b);
 double			vec2_invslope(t_xy a, t_xy b);
 t_xy			vec2_clamp(t_xy v, double min, double max);
-
-void			vec4p(t_xyzw v);
-t_xyzw			vec4(double x, double y, double z, double w);
-t_xyz			vec43(t_xyzw v);
-t_xyzw			vec4_add(t_xyzw a, t_xyzw b);
-t_xyzw			vec4_sub(t_xyzw a, t_xyzw b);
-t_xyzw			vec4_mul(t_xyzw v, double factor);
-t_xyzw			vec4_div(t_xyzw v, double divisor);
 
 void			vec3p(t_xyz v);
 t_xyz			vec3(double x, double y, double z);
@@ -121,6 +117,15 @@ t_xyz			vec3_norm(t_xyz v);
 double			vec3_dot(t_xyz a, t_xyz b);
 t_xyz			vec3_cross(t_xyz a, t_xyz b);
 double			vec3_dist(t_xyz a, t_xyz b);
+
+void			vec4p(t_xyzw v);
+t_xyzw			vec4(double x, double y, double z, double w);
+t_xyz			vec43(t_xyzw v);
+t_xy			vec42(t_xyzw v);
+t_xyzw			vec4_add(t_xyzw a, t_xyzw b);
+t_xyzw			vec4_sub(t_xyzw a, t_xyzw b);
+t_xyzw			vec4_mul(t_xyzw v, double factor);
+t_xyzw			vec4_div(t_xyzw v, double divisor);
 
 t_matrix		identity_m();
 t_matrix		scale_m(double x, double y, double z);

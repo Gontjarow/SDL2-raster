@@ -15,6 +15,11 @@ t_xyz	vec43(t_xyzw v)
 	return vec3(v.x, v.y, v.z);
 }
 
+t_xy	vec42(t_xyzw v)
+{
+	return vec2(v.x, v.y);
+}
+
 t_xyzw	vec4_add(t_xyzw a, t_xyzw b)
 {
 	return vec4(

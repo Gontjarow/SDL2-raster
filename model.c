@@ -69,7 +69,7 @@ t_mesh	load_model(const char *file)
 		// vertex
 		if (ft_strncmp(line, "v ", 2) == 0)
 		{
-			printf("OBJ read: \"%s\"\n", line);
+			// printf("OBJ read: \"%s\"\n", line);
 			split = ft_strsplit(line, ' ');
 			file_vertex[vcount++] = vec3(
 				atof(split[1]),
@@ -80,7 +80,7 @@ t_mesh	load_model(const char *file)
 		// face
 		else if (ft_strncmp(line, "f ", 2) == 0)
 		{
-			printf("OBJ read: \"%s\"\n", line);
+			// printf("OBJ read: \"%s\"\n", line);
 			split = ft_strsplit(line, ' ');
 			ssize_t i = 1;
 			while (split[i])
