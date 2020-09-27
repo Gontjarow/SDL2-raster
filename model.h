@@ -8,8 +8,6 @@
 ** A mesh is composed of at LEAST one face.
 */
 
-typedef t_xyz	t_vert;
-
 typedef struct	s_face
 {
 	int		verts;
@@ -24,11 +22,14 @@ typedef struct	s_mesh
 
 # include "tiny.h"
 
-t_mesh		load_model(const char *file);
-t_face		init_face(int n, ...);
-t_mesh		init_mesh(int n, ...);
-void		free_verts(t_face *face);
-void		free_faces(t_mesh *mesh);
-void		mesh_draw(unsigned int *surface, const t_mesh *mesh);
+t_mesh			load_model(const char *file);
+
+t_face			init_face(int n, ...);
+t_mesh			init_mesh(int n, ...);
+void			free_verts(t_face *face);
+void			free_faces(t_mesh *mesh);
+
+void			mesh_draw(unsigned int *surface, const t_mesh *mesh);
+t_mesh			mesh_transform(t_matrix matrix, t_mesh mesh);
 
 #endif

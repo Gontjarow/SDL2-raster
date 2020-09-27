@@ -144,8 +144,10 @@ t_matrix		scale_m(double x, double y, double z);
 t_matrix		translate_m(double x, double y, double z);
 t_matrix		rotate_x(t_rad angle);
 t_matrix		rotate_y(t_rad angle);
-t_matrix		rotate_x(t_rad angle);
+t_matrix		rotate_z(t_rad angle);
 t_matrix		multiply_m(t_matrix a, t_matrix b);
 t_xyzw			apply_m(t_matrix m, t_xyzw v);
+
+t_matrix		project_pure_m();
 
 #endif

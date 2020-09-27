@@ -202,3 +202,47 @@ void		mesh_draw(unsigned int *surface, const t_mesh *mesh)
 		++i;
 	}
 }
+
+t_mesh		mesh_duplicate(t_mesh mesh)
+{
+	t_mesh out;
+	int i;
+
+	out = init_mesh(mesh.faces);
+	i = 0;
+	while (i < mesh.faces)
+	{
+		out.face[i] = init_face(mesh.face[i].verts);
+		ft_memcpy(
+			out.face[i].vert,
+			mesh.face[i].vert,
+			sizeof(t_vert) * mesh.face[i].verts);
+	}
+	return (out);
+}
+
+/*
+** \brief Applies the given matrix to all verts in the mesh.
+** \return Newly allocated data, containing the transformed verts.
+*/
+t_mesh		mesh_transform(t_matrix matrix, t_mesh mesh)
+{
+	int i;
+	int v;
+	t_mesh out;
+
+	assert(mesh.faces >= 1);
+	out = mesh_duplicate(mesh);
+	i = 0;
+	while (i < out.faces)
+	{
+		v = 0;
+		while (v < out.face[i].verts)
+		{
+			out.face[i].vert[v] = apply_m(matrix, out.face[i].vert[v]);
+			++v;
+		}
+		++i;
+	}
+	return (out);
+}

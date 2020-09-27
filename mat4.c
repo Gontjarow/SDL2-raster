@@ -1,6 +1,8 @@
 #include "tiny.h"
 
 // Note: column-major order, see header for access macros
+// Note: if w == 0, then xyzw is direction
+// Note: if w == 1, then xyzw is position
 // Note: https://youtu.be/o1n02xKP138?t=251
 
 t_matrix	identity_m()
@@ -129,4 +131,18 @@ t_xyzw	apply_m(t_matrix m, t_xyzw v)
 		.z = v.x * m.Zx + v.y * m.Zy + v.z * m.Zz + v.z * m.Zw,
 		.w = v.x * m.Tx + v.y * m.Ty + v.z * m.Tz + v.z * m.Tw,
 	});
+}
+
+/*
+** https://youtu.be/o1n02xKP138?t=968
+*/
+
+t_matrix project_pure_m()
+{
+	return (t_matrix){{
+		{1, 0, 0, 0},
+		{0, 1, 0, 0},
+		{0, 0, 1, 0},
+		{0, 0, 1, 0},
+	}};
 }
