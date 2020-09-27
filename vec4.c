@@ -54,3 +54,27 @@ t_xyzw	vec4_div(t_xyzw v, double divisor)
 {
 	return vec4_mul(v, 1 / divisor);
 }
+
+double	vec4_mag(t_xyzw v)
+{
+	return sqrt(vec4_dot(v, v));
+}
+
+t_xyzw	vec4_norm(t_xyzw v)
+{
+	return vec4_div(v, vec4_mag(v));
+}
+
+double	vec4_dot(t_xyzw a, t_xyzw b)
+{
+	return ((a.x * b.x) + (a.y * b.y) + (a.z * b.z));
+}
+
+t_xyz	vec4_cross(t_xyzw a, t_xyzw b)
+{
+	return vec3(
+		(a.y * b.z) - (a.z * b.y),
+		(a.x * b.z) - (a.z * b.x),
+		(a.x * b.y) - (a.y * b.x)
+	);
+}

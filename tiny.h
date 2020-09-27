@@ -127,6 +127,10 @@ t_xyzw			vec4_add(t_xyzw a, t_xyzw b);
 t_xyzw			vec4_sub(t_xyzw a, t_xyzw b);
 t_xyzw			vec4_mul(t_xyzw v, double factor);
 t_xyzw			vec4_div(t_xyzw v, double divisor);
+double			vec4_mag(t_xyzw v);
+t_xyzw			vec4_norm(t_xyzw v);
+double			vec4_dot(t_xyzw a, t_xyzw b);
+t_xyz			vec4_cross(t_xyzw a, t_xyzw b);
 
 t_matrix		identity_m();
 t_matrix		scale_m(double x, double y, double z);
