@@ -1,9 +1,15 @@
 #ifndef TINY_H
 # define TINY_H
 
-# include "libsdl/SDL.h"
-# include "libsdl/SDL_image.h"
-# include "libsdl/SDL_mixer.h"
+# ifdef __linux__
+#  include "libsdl/SDL.h"
+#  include "libsdl/SDL_image.h"
+#  include "libsdl/SDL_mixer.h"
+# else
+#  include "SDL.h"
+#  include "SDL_image.h"
+# endif
+
 # include "libft/libft.h"
 
 # include <stdio.h>

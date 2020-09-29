@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ngontjar <ngontjar@student.42.fr>          +#+  +:+       +#+         #
+#    By: ngontjar <niko.gontjarow@gmail.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/08 19:59:39 by msuarez-          #+#    #+#              #
-#    Updated: 2020/09/25 14:33:49 by ngontjar         ###   ########.fr        #
+#    Updated: 2020/09/29 14:32:01 by ngontjar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,12 +31,22 @@ SDL2_IMAGE = libsdl/libSDL2_image.a
 
 SDL2_MIXER = libsdl/libSDL2_mixer.a
 
-FLAGS = -Wall -Wextra #-Werror
+FLAGS = -Wall -Wextra -g #-Werror
 
 LINUX_LINKS = -I libft -L libft -l ft \
 		-I ./mlx -L ./mlx -l mlx \
 		-lm -lXext -lX11 -lpthread \
         -I ./libsdl -L ./libsdl -ldl
+
+LIBSDL2 =		./libsdl-mac
+
+MAC_INCLUDES =	-I libft -L libft -l ft \
+				-I $(LIBSDL2)/SDL2.framework/Headers \
+				-I $(LIBSDL2)/SDL2_image.framework/Headers
+
+MAC_FLAGS =		-rpath $(LIBSDL2) \
+				-framework SDL2 -F$(LIBSDL2)/ \
+				-framework SDL2_image -F$(LIBSDL2)/
 
 MSG = \033[38;5;214m
 END = \033[0m
@@ -46,9 +56,7 @@ END = \033[0m
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
-	@gcc $(FLAGS) -Imlx/mlx.h $(SOURCES) $(LIBFT) \
-	-lmlx -lSDL2 -lSDL2_mixer -lSDL2_image \
-	-framework OpenGL -framework AppKit -o $(NAME)
+	@gcc $(OBJECTS) $(FLAGS) $(MAC_FLAGS) $(MAC_INCLUDES) -o $(NAME)
 	@echo "$(MSG)Done!$(END)"
 
 linux: $(OBJECTS)
@@ -57,7 +65,7 @@ linux: $(OBJECTS)
 
 $(OBJECTS): $(LIBFT) $(SOURCES)
 	@echo "$(MSG)Compiling...$(END)"
-	@gcc $(FLAGS) -c $(SOURCES)
+	@gcc $(FLAGS) $(MAC_INCLUDES) $(MAC_FLAGS) $(LIBFT) -c $(SOURCES)
 
 $(LIBFT):
 	@make -C libft
